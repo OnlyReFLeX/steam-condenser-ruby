@@ -11,11 +11,11 @@ class TestGoldSrcServer < Test::Unit::TestCase
 
     should 'be able to get a master server for GoldSrc servers' do
       master = mock
-      Servers::MasterServer.expects(:new).
+      SteamServers::MasterServer.expects(:new).
         with(*Servers::MasterServer::GOLDSRC_MASTER_SERVER).
         returns master
 
-      assert_equal master, Servers::GoldSrcServer.master
+      assert_equal master, SteamServers::GoldSrcServer.master
     end
 
   end
@@ -27,12 +27,12 @@ class TestGoldSrcServer < Test::Unit::TestCase
         with('goldsrc', 27015, Socket::AF_INET, Socket::SOCK_DGRAM).
         returns [[nil, nil, 'goldsrc', '127.0.0.1']]
 
-      @server = Servers::GoldSrcServer.new 'goldsrc', 27015
+      @server = SteamServers::GoldSrcServer.new 'goldsrc', 27015
     end
 
     should 'create a client socket upon initialization' do
       socket = mock
-      Servers::Sockets::GoldSrcSocket.expects(:new).with('127.0.0.1', 27015, false).returns socket
+      SteamServers::Sockets::GoldSrcSocket.expects(:new).with('127.0.0.1', 27015, false).returns socket
 
       @server.init_socket
 

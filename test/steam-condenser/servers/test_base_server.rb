@@ -11,7 +11,7 @@ class TestBaseServer < Test::Unit::TestCase
 
     class GenericServer
       include Logging
-      include Servers::BaseServer
+      include SteamServers::BaseServer
     end
 
     should 'split IP and port combinations' do

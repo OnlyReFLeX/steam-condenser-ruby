@@ -15,4 +15,4 @@ end
 require 'steam-condenser/logging'
 require 'steam-condenser/version'
 require 'steam-condenser/community/all'
-require 'steam-condenser/servers/all'
+require 'steam-condenser/steam_servers/all'

@@ -11,7 +11,7 @@ class TestGameServer < Test::Unit::TestCase
 
     class GenericGameServer
       include Logging
-      include Servers::GameServer
+      include SteamServers::GameServer
     end
 
     setup do
@@ -26,7 +26,7 @@ class TestGameServer < Test::Unit::TestCase
 
     should 'be able to calculate the latency of the server' do
       @socket.expects(:send_packet).with do |packet|
-        packet.is_a? Servers::Packets::A2S_INFO_Packet
+        packet.is_a? SteamServers::Packets::A2S_INFO_Packet
       end
       @socket.expects(:reply).with { || sleep 0.05 }
 
@@ -128,13 +128,13 @@ class TestGameServer < Test::Unit::TestCase
         somebody_data = { name: 'somebody', userid: '2', uniqueid: 'STEAM_00:123457', score: '3', time: '242', ping: '34', loss: '0', state: 'active' }
 
         attributes = mock
-        Servers::GameServer.expects(:player_status_attributes).
+        SteamServers::GameServer.expects(:player_status_attributes).
           with('userid name           uniqueid            score connected ping loss state').
           returns attributes
-        Servers::GameServer.expects(:split_player_status).
+        SteamServers::GameServer.expects(:split_player_status).
           with(attributes, '1 "someone"      STEAM_0:0:123456    10    3:52      12   0    active').
           returns somebody_data
-        Servers::GameServer.expects(:split_player_status).
+        SteamServers::GameServer.expects(:split_player_status).
           with(attributes, '2 "somebody"     STEAM_0:0:123457    3     2:42      34   0    active').
           returns someone_data
 
@@ -171,13 +171,13 @@ class TestGameServer < Test::Unit::TestCase
       somebody_data = { name: 'somebody', userid: '2', uniqueid: 'STEAM_00:123457', score: '3', time: '242', ping: '34', loss: '0', adr: '0' }
 
       attributes = mock
-      Servers::GameServer.expects(:player_status_attributes).
+      SteamServers::GameServer.expects(:player_status_attributes).
         with('name userid uniqueid frag time ping loss adr').
         returns attributes
-      Servers::GameServer.expects(:split_player_status).
+      SteamServers::GameServer.expects(:split_player_status).
         with(attributes, '1   "someone" 1 STEAM_0:0:123456 10 3:52 12 0 0').
         returns somebody_data
-      Servers::GameServer.expects(:split_player_status).
+      SteamServers::GameServer.expects(:split_player_status).
         with(attributes, '2   "somebody" 2 STEAM_0:0:123457 3 2:42 34 0 0').
         returns someone_data
 
@@ -191,7 +191,7 @@ class TestGameServer < Test::Unit::TestCase
 
     should 'handle challenge requests' do
       @socket.expects(:send_packet).with do |packet|
-        packet.is_a? Servers::Packets::A2S_PLAYER_Packet
+        packet.is_a? SteamServers::Packets::A2S_PLAYER_Packet
       end
 
       packet = mock
@@ -210,7 +210,7 @@ class TestGameServer < Test::Unit::TestCase
 
     should 'handle info requests' do
       @socket.expects(:send_packet).with do |packet|
-        packet.is_a? Servers::Packets::A2S_INFO_Packet
+        packet.is_a? SteamServers::Packets::A2S_INFO_Packet
       end
 
       packet = mock
@@ -225,7 +225,7 @@ class TestGameServer < Test::Unit::TestCase
 
     should 'handle rule requests' do
       @socket.expects(:send_packet).with do |packet|
-        packet.is_a? Servers::Packets::A2S_RULES_Packet
+        packet.is_a? SteamServers::Packets::A2S_RULES_Packet
       end
 
       packet = mock
@@ -242,7 +242,7 @@ class TestGameServer < Test::Unit::TestCase
 
     should 'handle player requests' do
       @socket.expects(:send_packet).with do |packet|
-        packet.is_a? Servers::Packets::A2S_PLAYER_Packet
+        packet.is_a? SteamServers::Packets::A2S_PLAYER_Packet
       end
 
       packet = mock
@@ -258,7 +258,7 @@ class TestGameServer < Test::Unit::TestCase
 
     should 'handle unexpected answers and retry' do
       @socket.expects(:send_packet).twice.with do |packet|
-        packet.is_a? Servers::Packets::A2S_PLAYER_Packet
+        packet.is_a? SteamServers::Packets::A2S_PLAYER_Packet
       end
 
       packet1 = mock
