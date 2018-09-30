@@ -3,7 +3,7 @@
 #
 # Copyright (c) 2012, Sebastian Staudt
 
-require 'steam-condenser/servers'
+require 'steam-condenser/steam_servers'
 
 path = File.dirname __FILE__
 files = Dir.glob(File.join(path, '**', '*.rb'))
